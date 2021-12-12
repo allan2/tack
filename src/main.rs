@@ -1,33 +1,62 @@
+use std::fs;
+
 fn main() {
     println!("Hello, world!");
 
     let code_css = "
-	body {
-		display: flex;
-		flex-direction: column;
-		min-height: 100%;
-	}"
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+}"
     .to_string();
 
     assert!(valid_braces(&code_css));
-    println!("{}", html_gen(code_css));
+    let html = html_gen(code_css);
+    fs::write("test.html", html).unwrap();
 }
 
-fn html_gen(mut s: String) -> String {
-    // entity
-    let entities = vec!["body", "html"];
-    for e in entities {
-        let e_with_open_brace = e.to_owned() + " {";
-        s = s.replace(&e_with_open_brace, &html_tag_with_open_brace(e));
-    }
+/// Assumptions:
+/// no trailing whitespace
+/// valid braces
+fn html_gen(s: String) -> String {
+    let mut new = String::new();
+    for line in s.lines() {
+        if line.contains("{") {
+            // mark up the entity, e.g. a classname or a CSS selector
+            let entity = line.split_once(" {").unwrap().0.trim_start();
+            let newline = &line.replace(entity, &html_tag(entity));
+            new.push_str(newline);
+            new.push('\n');
+        } else if line.contains(":") {
+            let split = line.split_once(':').unwrap();
 
-    let properties = vec!["display", "flex-direction", "min-height", "height"];
-    for p in properties {
-        let mut p_with_colon = p.to_owned();
-        p_with_colon.push(':');
-        s = s.replace(&p_with_colon, &html_property_with_colon(p));
+            // mark up the CSS property
+            let property = split.0.trim_start();
+            let mut newline = &line.replace(property, &html_property(property));
+
+            // mark up the value
+            let mut value = split.1.chars();
+            value.next(); // remove leading whitespace that was between colon and value
+            value.next_back(); // don't touch trailing semicolon
+
+            let value_first_char = value.next().unwrap();
+            let value = value_first_char.to_string() + value.as_str();
+            let html_value = if value_first_char.is_numeric() {
+                html_value_numeric(&value)
+            } else {
+                html_value_string(&value)
+            };
+            let newline = newline.replace(&value, &html_value);
+            new.push_str(&newline);
+            println!("{}", value);
+            new.push('\n');
+        } else if line == "}" {
+            new.push('}');
+            new.push('\n');
+        }
     }
-    s
+    new
 }
 
 fn html_tag_with_open_brace(s: &str) -> String {
@@ -46,6 +75,15 @@ fn html_property_with_colon(s: &str) -> String {
 // HTML generator for a property
 fn html_property(s: &str) -> String {
     format!("<span class=\"property\">{}</span>", s)
+}
+
+// HTML generator for a property
+fn html_value_numeric(s: &str) -> String {
+    format!("<span class=\"numeric\">{}</span>", s)
+}
+
+fn html_value_string(s: &str) -> String {
+    format!("<span class=\"string\">{}</span>", s)
 }
 
 /// Check if braces are valid.
@@ -138,6 +176,30 @@ mod tests {
         assert_eq!(
             super::html_property_with_colon("height"),
             "<span class=\"property\">height</span>:"
+        );
+    }
+
+    #[test]
+    fn html_value_int() {
+        assert_eq!(
+            super::html_numeric_value("5"),
+            "<span class=\"numeric\">5</span>"
+        );
+    }
+
+    #[test]
+    fn html_value_pct() {
+        assert_eq!(
+            super::html_numeric_value("10%"),
+            "<span class=\"numeric\">10%</span>"
+        );
+    }
+
+    #[test]
+    fn html_value_flex() {
+        assert_eq!(
+            super::html_numeric_value("flex"),
+            "<span class=\"string\">flex</span>"
         );
     }
 }
