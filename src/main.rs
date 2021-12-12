@@ -16,10 +16,16 @@ fn main() {
 fn html_gen(mut s: String) -> String {
     // entity
     let entities = vec!["body", "html"];
-    let tag_open_brace = " {";
-    for entity in entities {
-        let entity = entity.to_owned() + tag_open_brace;
-        s = s.replace(&entity, &html_tag_with_open_brace("body"));
+    for e in entities {
+        let e_with_open_brace = e.to_owned() + " {";
+        s = s.replace(&e_with_open_brace, &html_tag_with_open_brace(e));
+    }
+
+    let properties = vec!["display", "flex-direction", "min-height", "height"];
+    for p in properties {
+        let mut p_with_colon = p.to_owned();
+        p_with_colon.push(':');
+        s = s.replace(&p_with_colon, &html_property_with_colon(p));
     }
     s
 }
@@ -31,6 +37,15 @@ fn html_tag_with_open_brace(s: &str) -> String {
 // HTML generator for a single tag
 fn html_tag(s: &str) -> String {
     format!("<span class=\"tag\">{}</span>", s)
+}
+
+fn html_property_with_colon(s: &str) -> String {
+    format!("<span class=\"property\">{}</span>:", s)
+}
+
+// HTML generator for a property
+fn html_property(s: &str) -> String {
+    format!("<span class=\"property\">{}</span>", s)
 }
 
 /// Check if braces are valid.
@@ -115,6 +130,14 @@ mod tests {
         assert_eq!(
             super::html_tag_with_open_brace("body"),
             "<span class=\"tag\">body</span> {"
+        );
+    }
+
+    #[test]
+    fn html_height_property_with_colon() {
+        assert_eq!(
+            super::html_property_with_colon("height"),
+            "<span class=\"property\">height</span>:"
         );
     }
 }
