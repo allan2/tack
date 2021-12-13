@@ -32,7 +32,6 @@ pub fn coloured_html(s: String) -> String {
             };
             let newline = newline.replace(&value, &html_value);
             new.push_str(&newline);
-            println!("{}", value);
             new.push('\n');
         } else if line == "}" {
             new.push('}');
@@ -52,11 +51,12 @@ fn html_property(s: &str) -> String {
     format!("<span class=\"property\">{}</span>", s)
 }
 
-// HTML generator for a property
+// HTML generator for a numeric value
 fn html_value_numeric(s: &str) -> String {
     format!("<span class=\"numeric\">{}</span>", s)
 }
 
+// HTML generator for a string value
 fn html_value_string(s: &str) -> String {
     format!("<span class=\"string\">{}</span>", s)
 }
