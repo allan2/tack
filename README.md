@@ -17,7 +17,6 @@ Output:
 ```html
 <span class="tag">body</span> {
         <span class="property">display</span>: <span class="string">flex</span>;
-        <span class="property">flex-direction</span>: <span class="string">column</span>;
         <span class="property">min-height</span>: <span class="numeric">100%</span>;
 }
 ```

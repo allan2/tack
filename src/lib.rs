@@ -2,6 +2,20 @@
 ///
 /// Assumptions: no trailing whitespace
 ///              CSS is valid and properly formatted
+///
+/// # Examples
+///
+/// Basic usage:
+///
+/// ```
+/// let s =  let a = "
+/// body {
+///		display: flex;
+///		min-height: 100%;
+/// }".to_string();
+///	coloured_html(s);
+/// ```
+
 pub fn coloured_html(s: String) -> String {
     let mut new = String::new();
     for line in s.lines() {
