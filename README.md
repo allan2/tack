@@ -1,5 +1,9 @@
 # tack
 
+[![crates.io](https://img.shields.io/crates/v/tack.svg)](https://crates.io/crates/tack)
+[![Released API docs](https://docs.rs/tack/badge.svg)](https://docs.rs/tack)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+
 Tack is a minimal syntax highlighter that outputs HTML.
 
 **Note: this library is alpha and subject to breaking API changes.** 
