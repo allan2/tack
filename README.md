@@ -64,9 +64,9 @@ body {
     min-height: 100%;
 }";
 
-    let sr_css = ss.find_syntax_by_extension("css").unwrap();
+    let syntax_ref = ss.find_syntax_by_extension("css").unwrap();
     let mut html_generator =
-        ClassedHTMLGenerator::new_with_class_style(sr_css, &ss, ClassStyle::Spaced);
+        ClassedHTMLGenerator::new_with_class_style(syntax_ref, &ss, ClassStyle::Spaced);
     for line in LinesWithEndings::from(s) {
         html_generator.parse_html_for_line_which_includes_newline(line);
     }
