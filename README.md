@@ -23,31 +23,31 @@ Supported languages:
 
 ```css
 body {
-	display: flex;
-	flex-direction: column;
-	min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 }
 ```
 
 Tack usage:
 ```rust
 fn main() {
-	let s = "
+    let s = "
 body {
 display: flex;
 min-height: 100%;
 }".to_string();
 
-	let html = tack::coloured_html(s);
-	println!("{}", html);
+    let html = tack::coloured_html(s);
+    println!("{}", html);
 }
 ```
 
 Tack output:
 ```html
 <span class="tag">body</span> {
-	<span class="property">display</span>: <span class="string">flex</span>;
-	<span class="property">min-height</span>: <span class="numeric">100%</span>;
+  <span class="property">display</span>: <span class="string">flex</span>;
+  <span class="property">min-height</span>: <span class="numeric">100%</span>;
 }
 ```
 
@@ -82,16 +82,16 @@ body {
 `syntect` output:
 ```html
 <span class="source css">
-	<span class="meta selector css"><span class="entity name tag css">body</span> </span><span
-		class="meta property-list css"><span class="punctuation section property-list css">{</span>
-		<span class="meta property-name css"><span class="support type property-name css">display</span></span><span
-			class="punctuation separator key-value css">:</span><span class="meta property-value css"> </span><span
-			class="meta property-value css"><span class="support constant property-value css">flex</span></span><span
-			class="punctuation terminator rule css">;</span>
-		<span class="meta property-name css"><span class="support type property-name css">min-height</span></span><span
-			class="punctuation separator key-value css">:</span><span class="meta property-value css"> </span><span
-			class="meta property-value css"><span class="constant numeric css">100<span
-					class="keyword other unit css">%</span></span></span><span class="punctuation terminator rule css">;</span>
-	</span><span class="punctuation section property-list css">}</span></span>
+  <span class="meta selector css"><span class="entity name tag css">body</span> </span><span
+    class="meta property-list css"><span class="punctuation section property-list css">{</span>
+    <span class="meta property-name css"><span class="support type property-name css">display</span></span><span
+      class="punctuation separator key-value css">:</span><span class="meta property-value css"> </span><span
+      class="meta property-value css"><span class="support constant property-value css">flex</span></span><span
+      class="punctuation terminator rule css">;</span>
+    <span class="meta property-name css"><span class="support type property-name css">min-height</span></span><span
+      class="punctuation separator key-value css">:</span><span class="meta property-value css"> </span><span
+      class="meta property-value css"><span class="constant numeric css">100<span
+          class="keyword other unit css">%</span></span></span><span class="punctuation terminator rule css">;</span>
+  </span><span class="punctuation section property-list css">}</span></span>
 ```
 
