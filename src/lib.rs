@@ -1,25 +1,8 @@
-use std::fs;
-
-fn main() {
-    println!("Hello, world!");
-
-    let code_css = "
-body {
-	display: flex;
-	flex-direction: column;
-	min-height: 100%;
-}"
-    .to_string();
-
-    assert!(valid_braces(&code_css));
-    let html = html_gen(code_css);
-    fs::write("test.html", html).unwrap();
-}
-
-/// Assumptions:
-/// no trailing whitespace
-/// valid braces
-fn html_gen(s: String) -> String {
+/// Marks up CSS to coloured HTML
+///
+/// Assumptions: no trailing whitespace
+///              CSS is valid and properly formatted
+pub fn coloured_html(s: String) -> String {
     let mut new = String::new();
     for line in s.lines() {
         if line.contains("{") {
@@ -33,7 +16,7 @@ fn html_gen(s: String) -> String {
 
             // mark up the CSS property
             let property = split.0.trim_start();
-            let mut newline = &line.replace(property, &html_property(property));
+            let newline = &line.replace(property, &html_property(property));
 
             // mark up the value
             let mut value = split.1.chars();
@@ -59,17 +42,9 @@ fn html_gen(s: String) -> String {
     new
 }
 
-fn html_tag_with_open_brace(s: &str) -> String {
-    format!("<span class=\"tag\">{}</span> {{", s)
-}
-
 // HTML generator for a single tag
 fn html_tag(s: &str) -> String {
     format!("<span class=\"tag\">{}</span>", s)
-}
-
-fn html_property_with_colon(s: &str) -> String {
-    format!("<span class=\"property\">{}</span>:", s)
 }
 
 // HTML generator for a property
@@ -164,25 +139,9 @@ mod tests {
     }
 
     #[test]
-    fn html_body_tag_with_open_brace() {
-        assert_eq!(
-            super::html_tag_with_open_brace("body"),
-            "<span class=\"tag\">body</span> {"
-        );
-    }
-
-    #[test]
-    fn html_height_property_with_colon() {
-        assert_eq!(
-            super::html_property_with_colon("height"),
-            "<span class=\"property\">height</span>:"
-        );
-    }
-
-    #[test]
     fn html_value_int() {
         assert_eq!(
-            super::html_numeric_value("5"),
+            super::html_value_numeric("5"),
             "<span class=\"numeric\">5</span>"
         );
     }
@@ -190,7 +149,7 @@ mod tests {
     #[test]
     fn html_value_pct() {
         assert_eq!(
-            super::html_numeric_value("10%"),
+            super::html_value_numeric("10%"),
             "<span class=\"numeric\">10%</span>"
         );
     }
@@ -198,7 +157,7 @@ mod tests {
     #[test]
     fn html_value_flex() {
         assert_eq!(
-            super::html_numeric_value("flex"),
+            super::html_value_string("flex"),
             "<span class=\"string\">flex</span>"
         );
     }

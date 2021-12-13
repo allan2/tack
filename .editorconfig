@@ -7,6 +7,9 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
+[LICENSE]
+insert_final_newline = false
+
 [*.rs]
 indent_size = 4
 

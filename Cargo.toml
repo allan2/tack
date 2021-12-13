@@ -2,7 +2,12 @@
 name = "tack"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license = "MIT"
+description = "Minimal syntax highlighter to HTML"
+repository = "https://github.com/allan2/tack/"
+readme = "README.md"
+keyword = ["syntax", "highlight", "highlighter", "beautify", "beautifer"]
+categories = ["parser-implementations", "parsing", "text-processing"]
+authors = ["Allan Zhang <allanzhang7@gmail.com"]
 
 [dependencies]
