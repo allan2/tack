@@ -7,7 +7,7 @@
 Tack is a minimal syntax highlighter that outputs HTML.
 
 **Note: this library is alpha and subject to breaking API changes.** 
-
+**More languages are on the way!**
 
 Features:
  - class-based
