@@ -1,6 +1,6 @@
 [package]
 name = "tack"
-version = "0.1.0-alpha"
+version = "0.1.1-alpha"
 authors = ["Allan Zhang <allanzhang7@gmail.com"]
 description = "A minimal syntax highlighter that outputs HTML"
 edition = "2021"
